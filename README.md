@@ -1,24 +1,18 @@
-# README
+# Zendesk Coding Project
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements
+- Ruby 2.6.5
+- Nodejs Runtime at least v12.18.2
 
-Things you may want to cover:
+## How to run
+1. Clone the repo
+2. From the command line go to the project directory
+3. Run `bundle install` to install all gemfile dependencies
+4. Run `rails server` to start the development server
+5. Once the server is running visit `http://localhost:3000`
+6. You should see the list of tickets, be allowed to expand for details, and page through all available tickets
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## How to test
+1. From the command line go to the project directory
+2. Run `bundle exec rspec spec` to run all the specs
+3. You should see 6 passing tests
