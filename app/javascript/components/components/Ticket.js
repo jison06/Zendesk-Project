@@ -19,8 +19,10 @@ const Ticket = (props) => {
         {props.content}
         <p />
         <Title level={5}>Tags</Title>
-        {props.tags.map((tag) => (
-          <Tag color="gold">{tag}</Tag>
+        {props.tags.map((tag, index) => (
+          <Tag color="gold" key={index}>
+            {tag}
+          </Tag>
         ))}
       </Panel>
     </Collapse>

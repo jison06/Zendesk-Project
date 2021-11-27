@@ -43,30 +43,28 @@ const Tickets = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
-    axios
-      .get(`/tickets/index?page=${currentPage}`)
-      .then((response) => {
-        setCurrentTickets(response.data.tickets);
-        history.pushState(
-          { page: currentPage },
-          `Page ${currentPage}`,
-          `?page=${currentPage}`
-        );
-        setCount(response.data.count);
-      })
-      .catch((error) => {
-        setError(true);
-        setErrorMessage(error.response.data.errorMessage);
-      });
+    // Fetches the tickets for a given page when the popstate event is fired
+    window.addEventListener("popstate", (event) => {
+      event.preventDefault();
+      handlePageChange(event.state.page, true);
+    });
+    // Populates the currentTickets array on page load
+    handlePageChange(currentPage);
+    return () => {};
   }, []);
 
-  const handlePageChange = (page) => {
+  //makes an api call to the rails backend to fetch tickets
+  const handlePageChange = (page, navPressed) => {
     axios
       .get(`/tickets/index?page=${page}`)
       .then((response) => {
         setCurrentTickets(response.data.tickets);
         setCurrentPage(page);
-        history.pushState({ page: page }, `Page ${page}`, `?page=${page}`);
+        setCount(response.data.count);
+        // Shouldn't push the current page to history if navigating through using forward and back arrows
+        if (!navPressed) {
+          history.pushState({ page: page }, `Page ${page}`, `?page=${page}`);
+        }
         window.scrollTo(0, 0);
       })
       .catch((error) => {
