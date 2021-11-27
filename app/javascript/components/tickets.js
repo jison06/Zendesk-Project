@@ -1,14 +1,14 @@
-import "../import/App.css";
+import "./App.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Ticket from "./components/Ticket";
-import { Typography, Pagination, Row, Col } from "antd";
+import { Typography, Pagination, Row, Col, Alert } from "antd";
 const { Title } = Typography;
 import "antd/dist/antd.css";
 
 const RenderCards = (tickets) => {
   if (!tickets.length) {
-    return <Title>No posts!</Title>;
+    return <Title>No Tickets!</Title>;
   } else {
     return tickets.map((ticket) => {
       return (
@@ -33,15 +33,20 @@ const RenderCards = (tickets) => {
 };
 
 const Tickets = () => {
-  const [currentTickets, setCurrentTickets] = useState([]);
+  const [currentTickets, setCurrentTickets] = useState([])
   const [count, setCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   useEffect(() => {
     axios.get(`/tickets/index?page=${currentPage}`).then((response) => {
-      setCurrentTickets(response.data.tickets)
-      history.pushState({page: currentPage}, `Page ${currentPage}`, `?page=${currentPage}`)
-      setCount(response.data.count)
-    }).catch((error) => console.log(error))
+        setCurrentTickets(response.data.tickets)
+        history.pushState({page: currentPage}, `Page ${currentPage}`, `?page=${currentPage}`)
+        setCount(response.data.count)
+    }).catch((error) => {
+      setError(true)
+      setErrorMessage(error.response.data.errorMessage)
+    })
   }, [])
 
   const handlePageChange = (page) => {
@@ -50,12 +55,15 @@ const Tickets = () => {
       setCurrentPage(page)
       history.pushState({page: page}, `Page ${page}`, `?page=${page}`)
       window.scrollTo(0,0)
-    }).catch((error) => console.log(error))
+    }).catch((error) => {
+      setError(true)
+      setErrorMessage(error.response.data.errorMessage)
+    })
   }
 
   return (
     <div className="App">
-      {currentTickets.length ? (
+      { !error ? (
         <>
           <Title style={{ marginTop: 25 }} className="title">
             Tickets
@@ -65,7 +73,7 @@ const Tickets = () => {
         </>
       ) : (
         <>
-          <Title>No Tickets</Title>
+          <Alert message={errorMessage} type="error" showIcon/>
         </>
       )}
     </div>

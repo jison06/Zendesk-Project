@@ -5,7 +5,13 @@ class TicketsController < ApplicationController
     fetch_tickets(params)
     respond_to do |format|
       format.html
-      format.json { render('tickets/_tickets.json', locals: {tickets: @tickets, count: @count})}
+      format.json do
+        if @error
+          render json: { error: true, errorMessage: 'Failed to retrieve tickets at this time. Please try again later.'}, status: 500
+        else
+          render('tickets/_tickets.json', locals: { tickets: @tickets, count: @count }) unless @error
+        end
+      end
     end
   end
 
@@ -18,6 +24,8 @@ class TicketsController < ApplicationController
     if tickets.status == 200
       @tickets = JSON.parse(tickets.body)['tickets'] || []
       @count = JSON.parse(tickets.body)['count'] || 0
+    else
+      @error = true
     end
   end
 end
