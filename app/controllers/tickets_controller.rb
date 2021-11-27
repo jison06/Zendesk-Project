@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
       format.html
       format.json do
         if @error
-          render json: { error: true, errorMessage: 'Failed to retrieve tickets at this time. Please try again later.'}, status: 500
+          render json: { error: true, errorMessage: 'Failed to retrieve tickets at this time. Please try again later.' }, status: 500
         else
           render('tickets/_tickets.json', locals: { tickets: @tickets, count: @count }) unless @error
         end
