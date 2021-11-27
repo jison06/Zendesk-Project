@@ -4,12 +4,12 @@ class ApplicationController < ActionController::Base
   private
 
   def zendesk_client
-    username = 'jison0709@gmail.com'
-    password = 'aZB5L0$A$$CQU2$'
+    username = Rails.application.credentials.config.dig(:zendesk, :username)
+    password = Rails.application.credentials.config.dig(:zendesk, :password)
     url = 'https://zcc-jison.zendesk.com'
     @zendesk_client ||= Faraday.new(url: url) do |conn|
       conn.adapter Faraday.default_adapter
-      conn.basic_auth(username, password)
+      conn.request(:basic_auth, username, password)
     end
   end
 
