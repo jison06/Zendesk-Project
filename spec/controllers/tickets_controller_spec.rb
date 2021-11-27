@@ -106,7 +106,7 @@ RSpec.describe TicketsController, type: :controller do
           "allow_attachments": true
         }
       ]
-    }.to_s
+    }.to_json
   end
   before do
     stub_request(:get, 'https://zcc-jison.zendesk.com/api/v2/tickets?page=1&per_page=25')
@@ -147,7 +147,7 @@ RSpec.describe TicketsController, type: :controller do
         end
 
         context 'when json is requested' do
-          subject { get :index, format: :json }
+          subject { get :index, format: :json, params: { page: 1 } }
           it 'renders the right jbuilder' do
             expect(subject).to render_template('tickets/_tickets.json')
           end

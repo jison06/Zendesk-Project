@@ -2,6 +2,6 @@
 
 class ApplicationController < ActionController::Base
   def zendesk
-    @zendesk ||= Apis::Zendesk.new
+    @zendesk ||= Zendesk.new
   end
 end
