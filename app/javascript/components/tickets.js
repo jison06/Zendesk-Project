@@ -2,13 +2,13 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Ticket from "./components/Ticket";
-import { Typography, Pagination, Row, Col, Alert } from "antd";
+import { Typography, Pagination, Row, Col, Alert, Spin } from "antd";
 const { Title } = Typography;
 import "antd/dist/antd.css";
 
 const RenderCards = (tickets) => {
   if (!tickets.length) {
-    return <Title>No Tickets!</Title>;
+    return <Spin size="large"/>
   } else {
     return tickets.map((ticket) => {
       return (
@@ -69,7 +69,7 @@ const Tickets = () => {
             Tickets
           </Title>
           {RenderCards(currentTickets)}
-          <Pagination total={count} current={currentPage} showSizeChanger={false} pageSize={25} onChange={(page, pageSize) => handlePageChange(page)}/>
+          {currentTickets.length ? <Pagination total={count} current={currentPage} showSizeChanger={false} pageSize={25} onChange={(page, pageSize) => handlePageChange(page)}/> : <></>}
         </>
       ) : (
         <>
