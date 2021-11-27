@@ -1,4 +1,4 @@
-import { Typography, Divider, Tag, Collapse } from "antd";
+import { Typography, Tag, Collapse } from "antd";
 const { Title } = Typography;
 const { Panel } = Collapse;
 import React from "react";
