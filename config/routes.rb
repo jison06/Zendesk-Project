@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'tickets#index'
   get 'tickets/index', defaults: { format: :json }
