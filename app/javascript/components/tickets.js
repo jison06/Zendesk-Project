@@ -8,7 +8,7 @@ import "antd/dist/antd.css";
 
 const RenderCards = (tickets) => {
   if (!tickets.length) {
-    return <Spin size="large"/>
+    return <Spin size="large" />;
   } else {
     return tickets.map((ticket) => {
       return (
@@ -20,8 +20,12 @@ const RenderCards = (tickets) => {
                 title={ticket.subject}
                 status={ticket.status}
                 content={ticket.description}
-                updatedAt={new Date(ticket.updated_at).toLocaleString().replace(/(.*)\D\d+/, "$1")}
-                createdAt={new Date(ticket.created_at).toLocaleString().replace(/(.*)\D\d+/, "$1")}
+                updatedAt={new Date(ticket.updated_at)
+                  .toLocaleString()
+                  .replace(/(.*)\D\d+/, "$1")}
+                createdAt={new Date(ticket.created_at)
+                  .toLocaleString()
+                  .replace(/(.*)\D\d+/, "$1")}
                 tags={ticket.tags}
               />
             </div>
@@ -33,47 +37,67 @@ const RenderCards = (tickets) => {
 };
 
 const Tickets = () => {
-  const [currentTickets, setCurrentTickets] = useState([])
-  const [count, setCount] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [error, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [currentTickets, setCurrentTickets] = useState([]);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
-    axios.get(`/tickets/index?page=${currentPage}`).then((response) => {
-        setCurrentTickets(response.data.tickets)
-        history.pushState({page: currentPage}, `Page ${currentPage}`, `?page=${currentPage}`)
-        setCount(response.data.count)
-    }).catch((error) => {
-      setError(true)
-      setErrorMessage(error.response.data.errorMessage)
-    })
-  }, [])
+    axios
+      .get(`/tickets/index?page=${currentPage}`)
+      .then((response) => {
+        setCurrentTickets(response.data.tickets);
+        history.pushState(
+          { page: currentPage },
+          `Page ${currentPage}`,
+          `?page=${currentPage}`
+        );
+        setCount(response.data.count);
+      })
+      .catch((error) => {
+        setError(true);
+        setErrorMessage(error.response.data.errorMessage);
+      });
+  }, []);
 
   const handlePageChange = (page) => {
-    axios.get(`/tickets/index?page=${page}`).then((response) => {
-      setCurrentTickets(response.data.tickets)
-      setCurrentPage(page)
-      history.pushState({page: page}, `Page ${page}`, `?page=${page}`)
-      window.scrollTo(0,0)
-    }).catch((error) => {
-      setError(true)
-      setErrorMessage(error.response.data.errorMessage)
-    })
-  }
+    axios
+      .get(`/tickets/index?page=${page}`)
+      .then((response) => {
+        setCurrentTickets(response.data.tickets);
+        setCurrentPage(page);
+        history.pushState({ page: page }, `Page ${page}`, `?page=${page}`);
+        window.scrollTo(0, 0);
+      })
+      .catch((error) => {
+        setError(true);
+        setErrorMessage(error.response.data.errorMessage);
+      });
+  };
 
   return (
     <div className="App">
-      { !error ? (
+      {!error ? (
         <>
           <Title style={{ marginTop: 25 }} className="title">
             Tickets
           </Title>
           {RenderCards(currentTickets)}
-          {currentTickets.length ? <Pagination total={count} current={currentPage} showSizeChanger={false} pageSize={25} onChange={(page, pageSize) => handlePageChange(page)}/> : <></>}
+          {currentTickets.length ? (
+            <Pagination
+              total={count}
+              current={currentPage}
+              showSizeChanger={false}
+              pageSize={25}
+              onChange={(page, pageSize) => handlePageChange(page)}
+            />
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <>
-          <Alert message={errorMessage} type="error" showIcon/>
+          <Alert message={errorMessage} type="error" showIcon />
         </>
       )}
     </div>

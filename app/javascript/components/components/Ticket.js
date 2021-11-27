@@ -4,9 +4,13 @@ const { Panel } = Collapse;
 import React from "react";
 
 const Ticket = (props) => {
-  return(
-    <Collapse style={{width: 1000, marginBottom: 5, marginTop:5}}>
-      <Panel header={`${props.id}: ${props.title}`} extra={<Tag color='processing'>Status: {props.status}</Tag>} style={{textAlign: "left"}}>
+  return (
+    <Collapse style={{ width: 1000, marginBottom: 5, marginTop: 5 }}>
+      <Panel
+        header={`${props.id}: ${props.title}`}
+        extra={<Tag color="processing">Status: {props.status}</Tag>}
+        style={{ textAlign: "left" }}
+      >
         <Title level={5}>Created At</Title>
         <p>{props.createdAt}</p>
         <Title level={5}>Last Updated</Title>
@@ -15,10 +19,12 @@ const Ticket = (props) => {
         {props.content}
         <p />
         <Title level={5}>Tags</Title>
-        {props.tags.map((tag) => <Tag color='gold'>{tag}</Tag>)}
+        {props.tags.map((tag) => (
+          <Tag color="gold">{tag}</Tag>
+        ))}
       </Panel>
     </Collapse>
-  )
+  );
 };
 
 export default Ticket;
