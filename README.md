@@ -21,3 +21,12 @@
 1. From the command line go to the project directory
 2. Run `bundle exec rspec spec` to run all the specs
 3. You should see 6 passing tests
+
+## Viewing ticket details
+![1](https://user-images.githubusercontent.com/40171255/143780922-42e8e1e0-e2d8-4a3e-8bb2-360ba5e6d0a4.gif)
+
+## Pagination
+![2](https://user-images.githubusercontent.com/40171255/143780889-21fb7fc4-75b4-4749-a22b-606747aef7c0.gif)
+
+## Browser History
+![3](https://user-images.githubusercontent.com/40171255/143780967-db8ac342-7704-4d12-b968-dc6461e66d05.gif)
